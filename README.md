@@ -113,7 +113,6 @@ npm run test:headed           # headed browser
 npm run test:chromium         # explicit browser selection
 npm run test:firefox
 npm run test:webkit
-npm run test:ci               # CI profile (plain progress output, 1 retry)
 
 # any Cucumber CLI arg passes through:
 npm test -- --tags "@cart and not @wip"
