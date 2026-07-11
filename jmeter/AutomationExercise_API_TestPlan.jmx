@@ -37,6 +37,8 @@
           </elementProp>
         </collectionProp>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
@@ -59,7 +61,7 @@
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="TG01 - Signup API (POST /api/createAccount)">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Signup API" enabled="true">
         <stringProp name="TestPlan.comments">Case study scenario 1. Unique email per thread + iteration.</stringProp>
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
@@ -71,7 +73,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager - Form URL Encoded">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager - Form URL Encoded" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="Content-Type" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
@@ -84,7 +86,7 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S01 - POST /api/createAccount">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Account" enabled="true">
           <stringProp name="TestPlan.comments">API returns HTTP 200 with JSON body {&quot;responseCode&quot;: 201, &quot;message&quot;: &quot;User created!&quot;}</stringProp>
           <stringProp name="HTTPSampler.path">/api/createAccount</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -216,15 +218,14 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Generate unique signup_email + log credentials" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="unique email" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">def uniqueEmail = &quot;qa_signup_&quot; + System.currentTimeMillis() + &quot;_t&quot; + ctx.getThreadNum() + &quot;_&quot; + new Random().nextInt(9999) + &quot;@testmail.com&quot;
+            <stringProp name="script">def uniqueEmail = &quot;ahsan&quot; + (1000 + new Random().nextInt(9000)) + &quot;@krank.com&quot;
 vars.put(&quot;signup_email&quot;, uniqueEmail)
-// Decoded, copy-pasteable credentials for manual login verification (see jmeter.log)
-log.info(&quot;TG01 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | password: &quot; + vars.get(&quot;PASSWORD&quot;))</stringProp>
+log.info(&quot;signup email: &quot; + uniqueEmail)</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - HTTP Status 200" enabled="true">
@@ -261,13 +262,13 @@ log.info(&quot;TG01 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </DurationAssertion>
           <hashTree/>
         </hashTree>
-        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think Time 200-500ms">
+        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think Time 200-500ms" enabled="true">
           <stringProp name="ConstantTimer.delay">200</stringProp>
           <stringProp name="RandomTimer.range">300</stringProp>
         </UniformRandomTimer>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="TG02 - Login API (POST /api/verifyLogin)">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Login API" enabled="true">
         <stringProp name="TestPlan.comments">Case study scenario 2. Self-contained: creates its own user, then valid + invalid login checks.</stringProp>
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
@@ -288,7 +289,7 @@ log.info(&quot;TG01 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S01 - Setup - Create user for login test" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create user for login test" enabled="true">
           <stringProp name="TestPlan.comments">Test data setup: registers a fresh user whose credentials are then verified via the Login API</stringProp>
           <stringProp name="HTTPSampler.path">/api/createAccount</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -420,15 +421,14 @@ log.info(&quot;TG01 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Generate unique login_email" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="unique email" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">// Unique per thread + iteration; reused by the valid-login sampler below
-def uniqueEmail = &quot;qa_login_&quot; + System.currentTimeMillis() + &quot;_t&quot; + ctx.getThreadNum() + &quot;_&quot; + new Random().nextInt(9999) + &quot;@testmail.com&quot;
+            <stringProp name="script">def uniqueEmail = &quot;ahsan&quot; + (1000 + new Random().nextInt(9000)) + &quot;@krank.com&quot;
 vars.put(&quot;login_email&quot;, uniqueEmail)
-log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | password: &quot; + vars.get(&quot;PASSWORD&quot;))</stringProp>
+log.info(&quot;login email: &quot; + uniqueEmail)</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Body contains &apos;User created!&apos;" enabled="true">
@@ -442,7 +442,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S02 - POST /api/verifyLogin (valid credentials)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Verify Login - valid" enabled="true">
           <stringProp name="TestPlan.comments">Expects JSON body responseCode 200 + &quot;User exists!&quot;</stringProp>
           <stringProp name="HTTPSampler.path">/api/verifyLogin</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -499,7 +499,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S03 - POST /api/verifyLogin (invalid credentials - negative test)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Verify Login - invalid" enabled="true">
           <stringProp name="TestPlan.comments">Expects JSON body responseCode 404 + &quot;User not found!&quot; (HTTP status is still 200)</stringProp>
           <stringProp name="HTTPSampler.path">/api/verifyLogin</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -511,7 +511,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
               <elementProp name="email" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">email</stringProp>
-                <stringProp name="Argument.value">no_such_user_${__Random(10000,99999,)}@testmail.com</stringProp>
+                <stringProp name="Argument.value">no_such_user_${__Random(10000,99999,)}@krank.com</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -552,7 +552,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
         </UniformRandomTimer>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="TG03 - Add To Cart Flow (captured from browser DevTools)">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Add To Cart Flow" enabled="true">
         <stringProp name="TestPlan.comments">Recreates the browser AJAX flow: home page establishes the session cookie, /add_to_cart/{id} is called per product, /view_cart verifies cart contents</stringProp>
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
@@ -564,12 +564,12 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="TC01 - Add Two Products To Cart" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Add two products to cart" enabled="true">
           <boolProp name="TransactionController.parent">true</boolProp>
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S01 - GET / (home - establish session)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Home page" enabled="true">
             <stringProp name="HTTPSampler.path">/</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -591,7 +591,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
             </ResponseAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S02 - GET /add_to_cart/1 (Blue Top)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Blue Top" enabled="true">
             <stringProp name="TestPlan.comments">AJAX request captured from browser DevTools Network tab; cart is tracked via the session cookie</stringProp>
             <stringProp name="HTTPSampler.path">/add_to_cart/1</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -623,7 +623,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
             </ResponseAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S03 - GET /add_to_cart/2 (Men Tshirt)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Men Tshirt" enabled="true">
             <stringProp name="HTTPSampler.path">/add_to_cart/2</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -654,7 +654,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
             </ResponseAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S04 - GET /view_cart (verify cart contents)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="View Cart" enabled="true">
             <stringProp name="HTTPSampler.path">/view_cart</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -684,7 +684,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
         </UniformRandomTimer>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser)">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Website Checkout Flow (bonus)" enabled="true">
         <stringProp name="TestPlan.comments">Disabled by default. Full browser-captured checkout: signup via website forms (CSRF handled), add to cart, checkout, payment. Verify field names against a fresh DevTools capture before enabling. Runs with 1 loop recommended.</stringProp>
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
@@ -709,7 +709,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S01 - GET /login (extract CSRF)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login page" enabled="true">
           <stringProp name="HTTPSampler.path">/login</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -720,12 +720,14 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Generate unique web_email" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="unique email" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">vars.put(&quot;web_email&quot;, &quot;qa_web_&quot; + System.currentTimeMillis() + &quot;_t&quot; + ctx.getThreadNum() + &quot;@testmail.com&quot;)</stringProp>
+            <stringProp name="script">def uniqueEmail = &quot;ahsan&quot; + (1000 + new Random().nextInt(9000)) + &quot;@krank.com&quot;
+vars.put(&quot;web_email&quot;, uniqueEmail)
+log.info(&quot;checkout email: &quot; + uniqueEmail)</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
           <HtmlExtractor guiclass="HtmlExtractorGui" testclass="HtmlExtractor" testname="Extract csrfToken1" enabled="true">
@@ -739,7 +741,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </HtmlExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S02 - POST /signup (name + email)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Signup - name and email" enabled="true">
           <stringProp name="HTTPSampler.path">/signup</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -800,7 +802,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S03 - POST /signup (create account form)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Signup - account details" enabled="true">
           <stringProp name="HTTPSampler.path">/signup</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -949,7 +951,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S04 - GET /add_to_cart/1" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add to cart" enabled="true">
           <stringProp name="HTTPSampler.path">/add_to_cart/1</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -971,7 +973,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S05 - GET /checkout (extract CSRF)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout page" enabled="true">
           <stringProp name="HTTPSampler.path">/checkout</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -1003,7 +1005,7 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="S06 - POST /payment (place order)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Place order" enabled="true">
           <stringProp name="TestPlan.comments">Field names captured from DevTools payment form submission - dummy card data only</stringProp>
           <stringProp name="HTTPSampler.path">/payment</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -1105,43 +1107,6 @@ log.info(&quot;TG02 CREDENTIALS -&gt; email: &quot; + uniqueEmail + &quot; | pas
           </value>
         </objProp>
         <stringProp name="filename">summary_results.jtl</stringProp>
-      </ResultCollector>
-      <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree (debug only - keep disabled for load runs)" enabled="false">
-        <boolProp name="ResultCollector.error_logging">false</boolProp>
-        <objProp>
-          <name>saveConfig</name>
-          <value class="SampleSaveConfiguration">
-            <time>true</time>
-            <latency>true</latency>
-            <timestamp>true</timestamp>
-            <success>true</success>
-            <label>true</label>
-            <code>true</code>
-            <message>true</message>
-            <threadName>true</threadName>
-            <dataType>true</dataType>
-            <encoding>false</encoding>
-            <assertions>true</assertions>
-            <subresults>true</subresults>
-            <responseData>false</responseData>
-            <samplerData>false</samplerData>
-            <xml>false</xml>
-            <fieldNames>true</fieldNames>
-            <responseHeaders>false</responseHeaders>
-            <requestHeaders>false</requestHeaders>
-            <responseDataOnError>true</responseDataOnError>
-            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-            <assertionsResultsToSave>0</assertionsResultsToSave>
-            <bytes>true</bytes>
-            <sentBytes>true</sentBytes>
-            <url>true</url>
-            <threadCounts>true</threadCounts>
-            <idleTime>true</idleTime>
-            <connectTime>true</connectTime>
-          </value>
-        </objProp>
-        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
