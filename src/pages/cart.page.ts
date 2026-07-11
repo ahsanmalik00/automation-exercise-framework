@@ -65,13 +65,20 @@ export class CartPage extends BasePage {
     expect(line.lineTotal, `${productName} line total`).toBe(unitPrice * quantity);
   }
 
+  /**
+   * The button is visible before the site binds its click handler, so a
+   * too-early click silently does nothing. Retry the click until the
+   * checkout page actually opens.
+   */
   async proceedToCheckout(): Promise<void> {
-    await this.proceedToCheckoutButton.click();
+    await expect(async () => {
+      await this.proceedToCheckoutButton.click();
+      await expect(this.page).toHaveURL(/\/checkout/, { timeout: 2_000 });
+    }).toPass();
   }
 
   /**
-   * Guest variant: the button is visible before the site binds its click
-   * handler, so a too-early click silently does nothing. Retry the click
+   * Guest variant of the same handler-binding race: retry the click
    * until the register/login modal actually opens.
    */
   async proceedToCheckoutAsGuest(): Promise<void> {
