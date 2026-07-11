@@ -16,8 +16,7 @@ screenshots/*
 playwright-report/
 
 # JMeter generated results
-jmeter/results/
-jmeter/*.jtl
+jmeter/results/jmeter.log
 
 # OS / IDE
 .DS_Store

@@ -1,0 +1,38 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1783808247255,1229,S01 - GET /login (extract CSRF),200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,7867,212,1,7,https://automationexercise.com/login,1225,0,147
+1783808248270,336,S01 - POST /api/createAccount,200,OK,TG01 - Signup API (POST /api/createAccount) 1-2,text,true,,813,568,2,7,https://automationexercise.com/api/createAccount,336,0,35
+1783808248371,326,S01 - Setup - Create user for login test,200,OK,TG02 - Login API (POST /api/verifyLogin) 2-2,text,true,,902,546,2,6,https://automationexercise.com/api/createAccount,326,0,24
+1783808247677,1091,S01 - Setup - Create user for login test,200,OK,TG02 - Login API (POST /api/verifyLogin) 2-1,text,true,,903,546,2,6,https://automationexercise.com/api/createAccount,1091,0,32
+1783808248513,310,S02 - POST /signup (name + email),200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,20224,553,1,6,https://automationexercise.com/signup,309,0,0
+1783808247736,1190,S01 - POST /api/createAccount,200,OK,TG01 - Signup API (POST /api/createAccount) 1-1,text,true,,811,568,1,6,https://automationexercise.com/api/createAccount,1190,0,69
+1783808249085,306,S02 - POST /api/verifyLogin (valid credentials),200,OK,TG02 - Login API (POST /api/verifyLogin) 2-2,text,true,,925,282,3,8,https://automationexercise.com/api/verifyLogin,306,0,0
+1783808249094,301,S02 - POST /api/verifyLogin (valid credentials),200,OK,TG02 - Login API (POST /api/verifyLogin) 2-1,text,true,,925,282,3,8,https://automationexercise.com/api/verifyLogin,301,0,0
+1783808248831,801,S03 - POST /signup (create account form),200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,7981,1158,1,8,https://automationexercise.com/account_created,496,0,0
+1783808248831,496,S03 - POST /signup (create account form)-0,302,Found,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,1013,808,1,8,https://automationexercise.com/signup,496,0,0
+1783808249331,301,S03 - POST /signup (create account form)-1,200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,6968,350,1,8,https://automationexercise.com/account_created,300,0,0
+1783808249360,334,S01 - Setup - Create user for login test,200,OK,TG02 - Login API (POST /api/verifyLogin) 2-3,text,true,,902,544,3,8,https://automationexercise.com/api/createAccount,334,0,28
+1783808249412,349,S01 - POST /api/createAccount,200,OK,TG01 - Signup API (POST /api/createAccount) 1-3,text,true,,811,568,1,8,https://automationexercise.com/api/createAccount,349,0,25
+1783808249633,334,S04 - GET /add_to_cart/1,200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,835,348,1,7,https://automationexercise.com/add_to_cart/1,334,0,0
+1783808249668,314,S03 - POST /api/verifyLogin (invalid credentials - negative test),200,OK,TG02 - Login API (POST /api/verifyLogin) 2-1,text,true,,922,275,3,7,https://automationexercise.com/api/verifyLogin,314,0,0
+1783808249670,313,S03 - POST /api/verifyLogin (invalid credentials - negative test),200,OK,TG02 - Login API (POST /api/verifyLogin) 2-2,text,true,,928,275,3,7,https://automationexercise.com/api/verifyLogin,313,0,0
+1783808249965,330,S02 - POST /api/verifyLogin (valid credentials),200,OK,TG02 - Login API (POST /api/verifyLogin) 2-3,text,true,,923,280,1,5,https://automationexercise.com/api/verifyLogin,329,0,0
+1783808249968,356,S05 - GET /checkout (extract CSRF),200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,10479,343,1,5,https://automationexercise.com/checkout,355,0,0
+1783808248019,1387,TC01 - Add Two Products To Cart,200,"Number of samples in transaction : 4, number of failing samples : 0",TG03 - Add To Cart Flow (captured from browser DevTools) 3-2,,true,,66816,943,3,5,null,0,1639,20
+1783808248495,351,S01 - GET / (home - establish session),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-2,text,true,,53513,125,2,6,https://automationexercise.com/,345,0,20
+1783808249203,311,S02 - GET /add_to_cart/1 (Blue Top),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-2,text,true,,981,256,3,8,https://automationexercise.com/add_to_cart/1,311,0,0
+1783808249964,321,S03 - GET /add_to_cart/2 (Men Tshirt),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-2,text,true,,985,300,3,5,https://automationexercise.com/add_to_cart/2,321,0,0
+1783808250640,404,S04 - GET /view_cart (verify cart contents),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-2,text,true,,11337,262,3,5,https://automationexercise.com/view_cart,403,0,0
+1783808247019,2299,TC01 - Add Two Products To Cart,200,"Number of samples in transaction : 4, number of failing samples : 0",TG03 - Add To Cart Flow (captured from browser DevTools) 3-1,,true,,66833,943,2,4,null,0,1731,111
+1783808247473,1264,S01 - GET / (home - establish session),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-1,text,true,,53520,125,2,6,https://automationexercise.com/,1260,0,111
+1783808249195,312,S02 - GET /add_to_cart/1 (Blue Top),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-1,text,true,,991,256,3,8,https://automationexercise.com/add_to_cart/1,312,0,0
+1783808249999,317,S03 - GET /add_to_cart/2 (Men Tshirt),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-1,text,true,,983,300,3,5,https://automationexercise.com/add_to_cart/2,316,0,0
+1783808250642,406,S04 - GET /view_cart (verify cart contents),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-1,text,true,,11339,262,2,4,https://automationexercise.com/view_cart,405,0,0
+1783808250766,304,S03 - POST /api/verifyLogin (invalid credentials - negative test),200,OK,TG02 - Login API (POST /api/verifyLogin) 2-3,text,true,,918,275,1,3,https://automationexercise.com/api/verifyLogin,304,0,0
+1783808249019,1364,TC01 - Add Two Products To Cart,200,"Number of samples in transaction : 4, number of failing samples : 0",TG03 - Add To Cart Flow (captured from browser DevTools) 3-3,,true,,66832,943,1,2,null,0,1559,20
+1783808249442,357,S01 - GET / (home - establish session),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-3,text,true,,53519,125,3,7,https://automationexercise.com/,349,0,20
+1783808250212,343,S02 - GET /add_to_cart/1 (Blue Top),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-3,text,true,,985,256,3,5,https://automationexercise.com/add_to_cart/1,343,0,0
+1783808250869,303,S03 - GET /add_to_cart/2 (Men Tshirt),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-3,text,true,,989,300,1,2,https://automationexercise.com/add_to_cart/2,303,0,0
+1783808251580,361,S04 - GET /view_cart (verify cart contents),200,OK,TG03 - Add To Cart Flow (captured from browser DevTools) 3-3,text,true,,11339,262,1,2,https://automationexercise.com/view_cart,359,0,0
+1783808250330,1625,S06 - POST /payment (place order),200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,7972,956,1,1,https://automationexercise.com/payment_done/500,1316,0,0
+1783808250330,1316,S06 - POST /payment (place order)-0,302,Found,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,873,605,1,1,https://automationexercise.com/payment,1316,0,0
+1783808251647,308,S06 - POST /payment (place order)-1,200,OK,"TG04 - BONUS - Website Checkout Flow (CSRF, captured from browser) 4-1",text,true,,7099,351,1,1,https://automationexercise.com/payment_done/500,308,0,0
