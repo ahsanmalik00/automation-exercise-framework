@@ -15,6 +15,10 @@ screenshots/*
 !screenshots/.gitkeep
 playwright-report/
 
+# JMeter generated results
+jmeter/results/
+jmeter/*.jtl
+
 # OS / IDE
 .DS_Store
 .idea/

@@ -4,3 +4,4 @@ test-results
 screenshots
 dist
 package-lock.json
+jmeter/results

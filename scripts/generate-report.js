@@ -30,12 +30,14 @@ async function generateReport() {
       displayReportTime: true,
       metadata: {
         browser: { name: process.env.BROWSER || 'chromium' },
-        device: os.hostname(),
+        username: 'Ahsan Malik',
+        device: 'Ahsan Malik',
         platform: { name: os.platform(), version: os.release() },
       },
       customData: {
         title: 'Run info',
         data: [
+          { label: 'Executed by', value: 'Ahsan Malik' },
           { label: 'Base URL', value: process.env.BASE_URL || 'https://automationexercise.com' },
           { label: 'Build', value: process.env.BUILD_NUMBER || 'local' },
           { label: 'Executed at', value: new Date().toISOString() },

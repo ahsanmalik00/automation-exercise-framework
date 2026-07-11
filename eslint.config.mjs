@@ -4,7 +4,14 @@ import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   {
-    ignores: ['node_modules/**', 'reports/**', 'test-results/**', 'screenshots/**', 'dist/**'],
+    ignores: [
+      'node_modules/**',
+      'reports/**',
+      'test-results/**',
+      'screenshots/**',
+      'jmeter/results/**',
+      'dist/**',
+    ],
   },
   {
     files: ['**/*.ts'],
