@@ -1,0 +1,6 @@
+node_modules
+reports
+test-results
+screenshots
+dist
+package-lock.json

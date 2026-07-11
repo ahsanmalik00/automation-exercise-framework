@@ -1,0 +1,41 @@
+{
+  "name": "automation-exercise-framework",
+  "version": "1.0.0",
+  "description": "UI automation framework for automationexercise.com using Playwright, Cucumber.js and TypeScript",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/run-tests.js",
+    "test:smoke": "node scripts/run-tests.js --tags @smoke",
+    "test:regression": "node scripts/run-tests.js --tags @regression",
+    "test:headed": "cross-env HEADLESS=false node scripts/run-tests.js",
+    "test:chromium": "cross-env BROWSER=chromium node scripts/run-tests.js",
+    "test:firefox": "cross-env BROWSER=firefox node scripts/run-tests.js",
+    "test:webkit": "cross-env BROWSER=webkit node scripts/run-tests.js",
+    "report": "node scripts/generate-report.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.0.0",
+    "@eslint/js": "^10.0.1",
+    "@faker-js/faker": "^10.5.0",
+    "@playwright/test": "1.61.1",
+    "@types/node": "^26.1.1",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "multiple-cucumber-html-reporter": "^4.1.0",
+    "prettier": "^3.9.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.63.0"
+  }
+}
