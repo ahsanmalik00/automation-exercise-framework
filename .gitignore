@@ -24,3 +24,5 @@ jmeter/*.jtl
 .idea/
 .vscode/
 *.log
+
+*.pdf

@@ -176,6 +176,8 @@ LOG_LEVEL=silent npm test                     # reports only
 
 Each thread group runs a small pool of virtual users with think time (200–500ms), and every sampler carries status-code and/or response-body assertions, per the case-study requirements.
 
+> **Note on URL encoding:** form values in the captured/recorded requests are URL-encoded — `%40` is `@` and `%23` is `#` (e.g. an email shows as `user%40example.com` in the `.jmx` and in JMeter's request logs). This is standard `application/x-www-form-urlencoded` behaviour; the server receives the original characters.
+
 The plan is parameterised — host and protocol can be overridden without editing the JMX:
 
 ```bash
