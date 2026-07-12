@@ -74,7 +74,7 @@ The brief allowed JavaScript or TypeScript; TypeScript was chosen deliberately:
 ### Prerequisites
 
 - Node.js 20+ and npm
-- (Part 2 only) Java 8+ and [Apache JMeter](https://jmeter.apache.org/) 5.x (`brew install jmeter` on macOS)
+- (Part 2 only) JDK 21 and [Apache JMeter](https://jmeter.apache.org/) 5.x (`brew install jmeter` on macOS). Use JDK 21 (or 17/11/8) — JMeter 5.6's Groovy scripting does not work on newer JDKs, the JSR223 email generators fail with `Unsupported class file major version` on e.g. JDK 26.
 
 ### Installation
 
@@ -169,10 +169,10 @@ LOG_LEVEL=silent npm test                     # reports only
 
 | Thread group                       | What it does                                                                                                                                                                                                                                  |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **TG01 — Signup API**              | `POST /api/createAccount` with a unique email per iteration (JSR223-generated). Asserts HTTP 200, body `responseCode: 201` and `"User created!"`, and response time under 8s.                                                                 |
-| **TG02 — Login API**               | Creates a user, then `POST /api/verifyLogin` with valid credentials (asserts `"User exists!"`) and with unregistered credentials as a negative test.                                                                                          |
-| **TG03 — Add to Cart flow**        | Captured from browser DevTools and recreated: establish session on `GET /`, `GET /add_to_cart/1` (Blue Top), `GET /add_to_cart/2` (Men Tshirt), verify both products on `GET /view_cart`. Uses an HTTP Cookie Manager for session continuity. |
-| **TG04 — Bonus: website checkout** | Full browser-captured checkout journey with CSRF token extraction: login page → signup → add to cart → checkout → `POST /payment` (place order).                                                                                              |
+| **Signup API**                     | `POST /api/createAccount` with a unique email per iteration (JSR223-generated). Asserts HTTP 200, body `responseCode: 201` and `"User created!"`, and response time under 8s.                                                                 |
+| **Login API**                      | Creates a user, then `POST /api/verifyLogin` with valid credentials (asserts `"User exists!"`) and with unregistered credentials as a negative test.                                                                                          |
+| **Add To Cart Flow**               | Captured from browser DevTools and recreated: establish session on `GET /`, `GET /add_to_cart/1` (Blue Top), `GET /add_to_cart/2` (Men Tshirt), verify both products on `GET /view_cart`. Uses an HTTP Cookie Manager for session continuity. |
+| **Website Checkout Flow (bonus)**  | Full browser-captured checkout journey with CSRF token extraction: login page → signup → add to cart → checkout → `POST /payment` (place order).                                                                                              |
 
 Each thread group runs a small pool of virtual users with think time (200–500ms), and every sampler carries status-code and/or response-body assertions, per the case-study requirements.
 
@@ -203,7 +203,7 @@ To view or edit the plan interactively, open it in the JMeter GUI: `jmeter -t Au
 
 ### JMeter results
 
-Last executed run (all thread groups, shared public site): **34 samples, 0 errors (0.00%)**, avg response 518ms, p90 1.25s, max 1.6s.
+Last executed run (all thread groups, shared public site): **34 samples, 0 errors (0.00%)**, avg response 785ms, p90 1.5s, max 2.8s.
 
 - `jmeter/results/results.jtl` — exported raw results
 - `jmeter/results/html/index.html` — HTML dashboard (APDEX, response-time percentiles, throughput, errors)
@@ -240,7 +240,7 @@ Last executed run (all thread groups, shared public site): **34 samples, 0 error
 - **Cleanup**: accounts created by scenarios are deleted in the `After` hook _after_ failure evidence is captured; cleanup failures are attached as report warnings, never thrown.
 - **Checkout validation**: the payment form relies on HTML constraint validation (`required`), so the mandatory-field scenario asserts the browser blocks submission, the constraint message is reported, and no order confirmation appears.
 - The header "New User Signup!" / add-to-cart anchors have quirks (icon glyphs in accessible names, `<a>` without `href`), documented inline where non-role locators were required.
-- **JMeter flows** (TG03/TG04) were captured from browser DevTools network traffic and recreated with a cookie manager and CSRF-token extractors, as required by the brief.
+- **JMeter flows** (add-to-cart and website checkout) were captured from browser DevTools network traffic and recreated with a cookie manager and CSRF-token extractors, as required by the brief.
 
 ## Known limitations
 
