@@ -4,7 +4,7 @@ import { expect } from '../utilities/assertions';
 import { parsePrice } from '../utilities/price';
 import type { CartLine } from '../types';
 
-/** Shopping cart page (/view_cart). */
+// Cart page 
 export class CartPage extends BasePage {
   private readonly cartTable: Locator;
   private readonly rows: Locator;
@@ -37,7 +37,7 @@ export class CartPage extends BasePage {
     return this.rows.locator('.cart_description h4 a').allInnerTexts();
   }
 
-  /** Reads one cart line (unit price, quantity, line total) by product name. */
+  // reads price, quantity and line total for one product row
   async cartLine(productName: string): Promise<CartLine> {
     const row = this.rowFor(productName);
     await expect(row).toBeVisible();
@@ -49,7 +49,7 @@ export class CartPage extends BasePage {
     };
   }
 
-  /** Asserts the cart contains exactly the given products, in any order. */
+  // cart must hold exactly these products, order doesn't matter
   async expectExactlyProducts(productNames: string[]): Promise<void> {
     await expect(this.rows).toHaveCount(productNames.length);
     for (const name of productNames) {
@@ -57,7 +57,7 @@ export class CartPage extends BasePage {
     }
   }
 
-  /** Asserts a cart line against the expected unit price and quantity. */
+  // checks one row against the expected price and quantity
   async expectCartLine(productName: string, unitPrice: number, quantity: number): Promise<void> {
     const line = await this.cartLine(productName);
     expect(line.unitPrice, `${productName} unit price`).toBe(unitPrice);
@@ -65,11 +65,8 @@ export class CartPage extends BasePage {
     expect(line.lineTotal, `${productName} line total`).toBe(unitPrice * quantity);
   }
 
-  /**
-   * The button is visible before the site binds its click handler, so a
-   * too-early click silently does nothing. Retry the click until the
-   * checkout page actually opens.
-   */
+  // the button shows before the site wires up its click handler, so an early
+  // click does nothing; keep clicking until the checkout page opens
   async proceedToCheckout(): Promise<void> {
     await expect(async () => {
       await this.proceedToCheckoutButton.click();
@@ -77,10 +74,7 @@ export class CartPage extends BasePage {
     }).toPass();
   }
 
-  /**
-   * Guest variant of the same handler-binding race: retry the click
-   * until the register/login modal actually opens.
-   */
+  // same race as above, but for guests a register/login modal opens instead
   async proceedToCheckoutAsGuest(): Promise<void> {
     await expect(async () => {
       await this.proceedToCheckoutButton.click();
@@ -88,7 +82,7 @@ export class CartPage extends BasePage {
     }).toPass();
   }
 
-  /** Guests are prompted to register or log in before checking out. */
+  // guests get asked to register or log in before checkout
   async expectRegisterOrLoginPrompt(): Promise<void> {
     await expect(this.checkoutModal).toBeVisible();
     await expect(this.checkoutModal.getByRole('link', { name: 'Register / Login' })).toBeVisible();

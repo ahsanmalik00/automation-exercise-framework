@@ -2,12 +2,10 @@ import type { PageFactory } from './page-factory';
 import type { UserDetails } from '../types';
 import { log } from '../utilities/log';
 
-/**
- * Reusable business flows composed from page objects. Step definitions and
- * hooks share these so no UI journey is implemented twice.
- */
+// Shared user flows built on the page objects, used by both steps and hooks
+// so no UI journey is written twice.
 
-/** Registers a brand-new account end-to-end and leaves the user logged in. */
+// Registers a fresh account end-to-end and leaves the user logged in.
 export async function registerUser(pages: PageFactory, user: UserDetails): Promise<void> {
   log.info(`Registering account ${user.email} (${user.name})`);
   await pages.signupLogin.open();
@@ -20,7 +18,7 @@ export async function registerUser(pages: PageFactory, user: UserDetails): Promi
   log.debug(`Account ${user.email} registered and logged in`);
 }
 
-/** Adds each product from the catalogue, returning name -> displayed unit price. */
+// Adds each product from the catalogue, returns name -> displayed unit price.
 export async function addProductsToCart(
   pages: PageFactory,
   productNames: string[],
@@ -36,17 +34,15 @@ export async function addProductsToCart(
   return prices;
 }
 
-/**
- * Deletes the account belonging to the given user. Logs in first when no
- * session is active. Used by scenario cleanup; throws on unexpected failure
- * so callers decide how to report it.
- */
+// Deletes the user's account, logging in first if needed. Called from
+// scenario cleanup; throws on unexpected failures so the caller decides
+// how to report them.
 export async function deleteAccount(pages: PageFactory, user: UserDetails): Promise<boolean> {
   if (!(await pages.header.isLoggedIn())) {
     await pages.signupLogin.open();
     await pages.signupLogin.login(user.email, user.password);
     if (await pages.signupLogin.isLoginRejected()) {
-      // Account does not exist (e.g. registration failed mid-way) — nothing to delete.
+      // login rejected, so the account never made it, nothing to delete
       log.debug(`No account to delete for ${user.email} (login rejected)`);
       return false;
     }

@@ -4,7 +4,7 @@ import { expect } from '../utilities/assertions';
 import { parsePrice } from '../utilities/price';
 import type { UserDetails } from '../types';
 
-/** Checkout review page (/checkout): address details + order review. */
+/** Checkout review page (/checkout), address details + order review. */
 export class CheckoutPage extends BasePage {
   private readonly addressDetailsHeading: Locator;
   private readonly reviewOrderHeading: Locator;
@@ -24,7 +24,7 @@ export class CheckoutPage extends BasePage {
       .locator('#cart_info tr')
       .filter({ hasText: 'Total Amount' })
       .locator('.cart_total_price');
-    // Plain unlabeled textarea — CSS by name attribute is the practical option.
+    // the textarea has no label, so grab it by name
     this.commentBox = page.locator('textarea[name="message"]');
     this.placeOrderLink = page.getByRole('link', { name: 'Place Order' });
   }
@@ -34,7 +34,7 @@ export class CheckoutPage extends BasePage {
     await expect(this.reviewOrderHeading).toBeVisible();
   }
 
-  /** The delivery address must reflect the details captured at registration. */
+  // delivery address should match what was entered at registration
   async expectDeliveryAddressMatches(user: UserDetails): Promise<void> {
     await expect(this.deliveryAddress).toBeVisible();
     await expect(this.deliveryAddress).toContainText(`${user.firstName} ${user.lastName}`);

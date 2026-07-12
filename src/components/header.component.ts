@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { expect } from '../utilities/assertions';
 
-/** Site-wide navigation header, present on every page. */
+// Top navigation header, present on every page
 export class HeaderComponent {
   private readonly root: Locator;
 
@@ -10,9 +10,8 @@ export class HeaderComponent {
   }
 
   private navLink(name: string): Locator {
-    // Icon glyphs prefix each accessible name (font-icon pseudo-element), so
-    // substring name matching is required. Scoping to #header keeps it safe —
-    // no other links live inside the header.
+    // link names start with an icon glyph, so match by substring;
+    // scoping to #header keeps that safe
     return this.root.getByRole('link', { name });
   }
 

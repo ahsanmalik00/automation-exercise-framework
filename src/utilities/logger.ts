@@ -1,13 +1,6 @@
-/**
- * Minimal leveled logger for test-lifecycle visibility.
- *
- * - Level is controlled via LOG_LEVEL (silent | error | warn | info | debug),
- *   default "info". Step-by-step detail lives at "debug".
- * - Writes to stderr so output never corrupts Cucumber's progress bar or any
- *   formatter writing to stdout.
- * - In parallel runs each entry is prefixed with the Cucumber worker id so
- *   interleaved lines remain attributable.
- */
+// Small leveled logger. Writes to stderr so it never corrupts Cucumber's
+// progress bar on stdout. In parallel runs each line gets a worker id prefix.
+// Level comes from LOG_LEVEL; per-step detail lives at debug.
 
 export type LogLevel = 'silent' | 'error' | 'warn' | 'info' | 'debug';
 
@@ -69,7 +62,7 @@ export class Logger {
     private readonly scope = '',
   ) {}
 
-  /** Returns a logger whose entries are prefixed with the given scope. */
+  // same logger, but entries get a scope prefix
   child(scope: string): Logger {
     return new Logger(this.level, scope);
   }

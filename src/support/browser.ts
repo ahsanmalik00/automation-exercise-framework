@@ -3,10 +3,8 @@ import type { Browser, LaunchOptions } from '@playwright/test';
 import { env } from '../utilities/env';
 import { log } from '../utilities/log';
 
-/**
- * One browser per Cucumber worker process. Contexts and pages are created
- * per scenario in the hooks — this is the only place a browser is launched.
- */
+// One browser per Cucumber worker. Contexts and pages are created per
+// scenario in the hooks; this is the only place a browser gets launched.
 let browser: Browser | undefined;
 
 export async function getBrowser(): Promise<Browser> {
@@ -33,6 +31,6 @@ export async function closeBrowser(): Promise<void> {
   browser = undefined;
 }
 
-/** Third-party ad/analytics hosts aborted per context: faster, ad-free, stable. */
+// Ad/analytics hosts we block per context. Faster and less flaky without them.
 export const BLOCKED_HOSTS =
   /googlesyndication|googleads|doubleclick|adservice|google-analytics|googletagmanager|googletagservices|amazon-adsystem|fundingchoicesmessages/;

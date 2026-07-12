@@ -20,7 +20,7 @@ When(
     const user = this.activeUser;
     if (!user) throw new Error('Signup was not started — no active user in this scenario.');
     user.title = title;
-    // From this point an account may exist on the site, so ensure cleanup.
+    // an account may exist on the site from here on, so track it for cleanup
     this.trackAccountForCleanup(user);
     await this.pages.accountInformation.expectLoaded();
     await this.pages.accountInformation.expectPrefilledNameAndEmail(user.name, user.email);

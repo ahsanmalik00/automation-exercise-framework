@@ -2,7 +2,7 @@ import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { expect } from '../utilities/assertions';
 
-/** Order confirmation page shown after a successful payment (/payment_done). */
+// Order confirmation page after a successful payment isdone
 export class OrderConfirmationPage extends BasePage {
   private readonly orderPlacedHeading: Locator;
   private readonly confirmationMessage: Locator;

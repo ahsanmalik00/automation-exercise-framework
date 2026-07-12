@@ -1,4 +1,4 @@
-/** Parses a price label such as "Rs. 500" into its numeric value. */
+// Turns a label like "Rs. 500" into 500.
 export function parsePrice(label: string): number {
   const match = label.replace(/[,\s]/g, '').match(/(\d+)/);
   if (!match) {

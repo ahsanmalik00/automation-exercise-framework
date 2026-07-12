@@ -14,7 +14,7 @@ Then('the user should be logged in successfully', async function (this: CustomWo
   if (this.verifyLoginName) {
     await this.pages.header.expectLoggedInAs(user.name);
   } else {
-    // Env-provided credentials without VALID_USER_NAME: verify the session only.
+    // no VALID_USER_NAME to compare against, just check we're logged in
     await this.pages.header.expectLoggedInAs('');
   }
 });

@@ -27,7 +27,7 @@ function artifactName(scenario: ITestCaseHookParameter): string {
   return `${scenarioSlug}-${Date.now()}`;
 }
 
-/** Renders a scenario/step result with a colour that matches its status. */
+// status text with a matching color
 function formatStatus(status: (typeof Status)[keyof typeof Status] | undefined): string {
   switch (status) {
     case Status.PASSED:
@@ -40,7 +40,7 @@ function formatStatus(status: (typeof Status)[keyof typeof Status] | undefined):
 }
 
 BeforeAll(async function () {
-  // The site exposes stable `data-qa` hooks; use them via getByTestId().
+  // the site uses data-qa attributes as its stable test hooks
   selectors.setTestIdAttribute('data-qa');
   log.info(
     `Launching ${env.browser} (headless=${env.headless}) against ${env.baseUrl} ` +
@@ -69,7 +69,7 @@ Before(async function (this: CustomWorld, scenario: ITestCaseHookParameter) {
   this.page.setDefaultTimeout(env.actionTimeoutMs);
   this.page.setDefaultNavigationTimeout(env.navigationTimeoutMs);
 
-  // Surface page-side problems that would otherwise stay invisible.
+  // log page-side errors that would otherwise go unnoticed
   this.page.on('pageerror', (error) => log.debug(`Page JS error: ${error.message}`));
   this.page.on('requestfailed', (request) => {
     if (!BLOCKED_HOSTS.test(request.url())) {
@@ -77,7 +77,7 @@ Before(async function (this: CustomWorld, scenario: ITestCaseHookParameter) {
     }
   });
 
-  // Dismiss the GDPR consent dialog whenever it appears (region-dependent).
+  // the consent popup shows depending on region, close it whenever it appears
   await this.page.addLocatorHandler(
     this.page.getByRole('button', { name: 'Consent' }),
     async (button) => {
@@ -114,7 +114,7 @@ After(async function (this: CustomWorld, scenario: ITestCaseHookParameter) {
     log.error(scenario.result.message.split('\n')[0]);
   }
 
-  // 1. Capture evidence first, before cleanup navigates away.
+  // screenshot first, cleanup navigates away from the failure page
   if (failed && !this.page.isClosed()) {
     log.error(`Failed at URL: ${this.page.url()}`);
     try {
@@ -131,8 +131,8 @@ After(async function (this: CustomWorld, scenario: ITestCaseHookParameter) {
     }
   }
 
-  // 2. Delete accounts created by the scenario. Cleanup problems are attached
-  //    as warnings only — they must never mask the scenario's own result.
+  // delete accounts the scenario created; failures here only warn so cleanup
+  // never masks the scenario's own result
   for (const user of [...this.accountsToClean]) {
     try {
       if (!this.page.isClosed()) {
@@ -146,7 +146,7 @@ After(async function (this: CustomWorld, scenario: ITestCaseHookParameter) {
     }
   }
 
-  // 3. Persist the trace for failed scenarios, then always release resources.
+  // keep the trace only for failures, then always close everything
   try {
     if (env.trace) {
       if (failed) {

@@ -1,9 +1,7 @@
 import type { Page } from '@playwright/test';
 
-/**
- * Common base for all page objects. Navigation is always relative to the
- * browser context's baseURL, so no environment URL leaks into page classes.
- */
+// Base for all page objects. goto() is relative to the context baseURL,
+// so page classes never hardcode environment URLs.
 export abstract class BasePage {
   constructor(protected readonly page: Page) {}
 

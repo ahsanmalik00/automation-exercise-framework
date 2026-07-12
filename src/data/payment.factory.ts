@@ -1,10 +1,8 @@
 import { faker } from '@faker-js/faker';
 import type { PaymentDetails } from '../types';
 
-/**
- * Generates dummy card details only — never real payment data.
- * The site under test accepts any well-formed values.
- */
+// Fake card details only, never real payment data. The site accepts any
+// well formed values.
 export function buildPaymentDetails(nameOnCard?: string): PaymentDetails {
   const expiry = faker.date.future({ years: 4 });
   return {

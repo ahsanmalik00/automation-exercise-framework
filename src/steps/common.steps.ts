@@ -20,11 +20,9 @@ Given('the user is viewing the product catalogue', async function (this: CustomW
   await this.pages.products.expectLoaded();
 });
 
-/**
- * Provides a registered account and leaves the user logged out.
- * Uses VALID_USER_EMAIL / VALID_USER_PASSWORD when configured; otherwise a
- * disposable account is registered on the fly and deleted during cleanup.
- */
+// Gives the scenario a registered account, logged out. Uses VALID_USER_EMAIL /
+// VALID_USER_PASSWORD if set, otherwise registers a throwaway account that
+// gets deleted in cleanup.
 Given('a registered user exists', async function (this: CustomWorld) {
   if (env.validUser) {
     this.activeUser = buildUser({

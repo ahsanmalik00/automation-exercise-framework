@@ -1,7 +1,5 @@
-/**
- * Products referenced by the feature files. Selected by their catalogue name
- * (never by numeric index) — these names are stable seed data on the site.
- */
+// Products used in the feature files. Picked by catalogue name, never by
+// index; these names are stable seed data on the site.
 export const KNOWN_PRODUCTS = {
   blueTop: 'Blue Top',
   menTshirt: 'Men Tshirt',

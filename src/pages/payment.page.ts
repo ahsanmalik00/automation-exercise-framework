@@ -3,7 +3,7 @@ import { BasePage } from './base.page';
 import { expect } from '../utilities/assertions';
 import type { PaymentDetails } from '../types';
 
-/** Payment page (/payment). Only dummy generated card data is ever used here. */
+// Payment page. Card data used here is always dummy data.
 export class PaymentPage extends BasePage {
   private readonly nameOnCard: Locator;
   private readonly cardNumber: Locator;
@@ -45,11 +45,8 @@ export class PaymentPage extends BasePage {
     await expect(this.page.getByTestId('order-placed')).toBeHidden();
   }
 
-  /**
-   * With empty mandatory fields the browser blocks submission, so the user
-   * must remain on the payment page and the first mandatory field reports
-   * a constraint-validation message.
-   */
+  // with empty required fields the browser blocks the submit, so we stay on
+  // the page and the first field carries a validation message
   async expectMandatoryFieldsReported(): Promise<void> {
     await expect(this.page).toHaveURL(/\/payment$/);
     const validationMessage = await this.nameOnCard.evaluate(

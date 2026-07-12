@@ -5,7 +5,7 @@ Feature: User registration
   So that I can shop and check out as a registered customer
 
   @regression
-  Scenario Outline: A new visitor registers an account successfully as "<title>"
+  Scenario Outline: A new visitor registers an account successfully
     Given the user is on the home page
     When the user starts signing up with a fresh name and a unique email address
     And the user submits the mandatory account information as "<title>"

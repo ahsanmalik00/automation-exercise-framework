@@ -2,10 +2,8 @@ import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { expect } from '../utilities/assertions';
 
-/**
- * Combined Signup / Login page (/login).
- * The test-id attribute is configured as `data-qa`, the site's stable hooks.
- */
+// Combined signup / login page. Test ids map to the site's
+// data-qa attributes.
 export class SignupLoginPage extends BasePage {
   private readonly signupHeading: Locator;
   private readonly loginHeading: Locator;

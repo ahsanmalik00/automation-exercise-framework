@@ -5,7 +5,7 @@ const path = require('node:path');
 
 const ARTIFACT_DIRS = ['reports', 'test-results', 'screenshots'];
 
-/** Empties (and re-creates) the artifact directories before a test run. */
+// Wipes and recreates the artifact folders before a run.
 function cleanArtifacts() {
   for (const dir of ARTIFACT_DIRS) {
     const absolute = path.resolve(__dirname, '..', dir);

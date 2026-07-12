@@ -1,10 +1,10 @@
 'use strict';
 
-/**
- * Test runner wrapper: cleans previous artifacts, runs Cucumber with any
- * pass-through CLI arguments, and always generates the HTML report —
- * even when scenarios fail — before exiting with Cucumber's exit code.
- */
+// Runner wrapper: cleans old artifacts, runs Cucumber with any pass-through
+// CLI args, always builds the HTML report (even on failures), then exits
+// with Cucumber's exit code.
+
+require('dotenv').config({ quiet: true });
 
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
@@ -12,19 +12,18 @@ const { cleanArtifacts } = require('./clean-artifacts');
 const { generateReport } = require('./generate-report');
 
 cleanArtifacts();
+const nodeModules = path.resolve(__dirname, '..', 'node_modules');
+const runCli = (entry, args) =>
+  spawnSync(process.execPath, [path.join(nodeModules, ...entry), ...args], { stdio: 'inherit' });
 
-const cucumberBin = path.resolve(
-  __dirname,
-  '..',
-  'node_modules',
-  '.bin',
-  process.platform === 'win32' ? 'cucumber-js.cmd' : 'cucumber-js',
-);
+const requested = (process.env.BROWSER ?? 'chromium').toLowerCase();
+const browser = ['chromium', 'firefox', 'webkit'].includes(requested) ? requested : 'chromium';
+const install = runCli(['playwright', 'cli.js'], ['install', browser]);
+if (install.status !== 0) {
+  console.warn(`Warning: "playwright install ${browser}" failed — the browser launch may fail.`);
+}
 
-const result = spawnSync(cucumberBin, process.argv.slice(2), {
-  stdio: 'inherit',
-  shell: process.platform === 'win32',
-});
+const result = runCli(['@cucumber', 'cucumber', 'bin', 'cucumber.js'], process.argv.slice(2));
 
 void generateReport().finally(() => {
   process.exit(result.status ?? 1);

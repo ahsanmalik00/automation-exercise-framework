@@ -39,12 +39,16 @@ function parseValidUser(): EnvConfig['validUser'] {
   return { email, password, name: process.env.VALID_USER_NAME ?? email.split('@')[0] };
 }
 
+const isCi = parseBoolean(process.env.CI, false);
+
 export const env: EnvConfig = {
   baseUrl: process.env.BASE_URL ?? 'https://automationexercise.com',
   browser: parseBrowser(process.env.BROWSER),
-  headless: parseBoolean(process.env.HEADLESS, true),
+  // CI runners have no display, so a headed launch would crash there — force
+  // headless on CI no matter what HEADLESS says.
+  headless: isCi || parseBoolean(process.env.HEADLESS, true),
   trace: parseBoolean(process.env.TRACE, false),
-  isCi: parseBoolean(process.env.CI, false),
+  isCi,
   actionTimeoutMs: 15_000,
   navigationTimeoutMs: 45_000,
   stepTimeoutMs: 120_000,

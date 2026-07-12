@@ -1,17 +1,15 @@
 import { faker } from '@faker-js/faker';
 import type { Title, UserDetails } from '../types';
 
-/**
- * Generates an email address that is unique per test execution, including
- * across parallel workers (timestamp + worker pid + random suffix).
- */
+// Email that stays unique per run, even across parallel workers
+// (timestamp + pid + random suffix).
 export function uniqueEmail(): string {
   const stamp = Date.now().toString(36);
   const suffix = faker.string.alphanumeric({ length: 6, casing: 'lower' });
   return `qa.auto.${stamp}.${process.pid}.${suffix}@example.com`;
 }
 
-/** Builds a complete, site-valid set of account details with a unique email. */
+// Full set of account details the site will accept, with a unique email.
 export function buildUser(overrides: Partial<UserDetails> = {}): UserDetails {
   const title: Title = overrides.title ?? faker.helpers.arrayElement<Title>(['Mr.', 'Mrs.']);
   const firstName = faker.person.firstName(title === 'Mr.' ? 'male' : 'female');
@@ -32,7 +30,7 @@ export function buildUser(overrides: Partial<UserDetails> = {}): UserDetails {
     company: faker.company.name(),
     address: faker.location.streetAddress(),
     address2: `Apt. ${faker.number.int({ min: 1, max: 999 })}`,
-    // Must be one of the options offered by the site's country dropdown.
+    // has to be an option in the site's country dropdown
     country: 'United States',
     state: faker.location.state(),
     city: faker.location.city(),
@@ -44,7 +42,7 @@ export function buildUser(overrides: Partial<UserDetails> = {}): UserDetails {
   };
 }
 
-/** Credentials that are guaranteed not to belong to any registered account. */
+// Credentials that don't belong to any registered account.
 export function unregisteredCredentials(): { email: string; password: string } {
   return { email: uniqueEmail(), password: faker.internet.password({ length: 14 }) };
 }

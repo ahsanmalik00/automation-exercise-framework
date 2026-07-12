@@ -1,8 +1,5 @@
-/**
- * Cucumber.js profiles.
- * TypeScript support is provided through ts-node (transpile-only for speed;
- * full type safety is enforced separately via `npm run typecheck`).
- */
+// Cucumber profiles. ts-node runs transpile-only for speed; type safety is
+// checked separately with npm run typecheck.
 process.env.TS_NODE_TRANSPILE_ONLY = process.env.TS_NODE_TRANSPILE_ONLY ?? 'true';
 
 const parallel = Number(process.env.PARALLEL ?? 1);

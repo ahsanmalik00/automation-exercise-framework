@@ -2,7 +2,7 @@ import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { expect } from '../utilities/assertions';
 
-/** Confirmation pages for account lifecycle events (created / deleted). */
+// "Account created" / "Account deleted" confirmation pages
 export class AccountStatusPage extends BasePage {
   private readonly accountCreatedHeading: Locator;
   private readonly accountDeletedHeading: Locator;

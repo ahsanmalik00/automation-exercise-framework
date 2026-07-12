@@ -7,11 +7,8 @@ const os = require('node:os');
 const REPORTS_DIR = path.resolve(__dirname, '..', 'reports');
 const JSON_REPORT = path.join(REPORTS_DIR, 'cucumber-report.json');
 
-/**
- * Builds the rich HTML dashboard (multiple-cucumber-html-reporter) from the
- * Cucumber JSON output. Runs even after failed test runs; never throws so it
- * cannot mask the test exit code.
- */
+// Builds the HTML dashboard from the Cucumber JSON output. Never throws:
+// a broken report must not hide the real test exit code.
 async function generateReport() {
   if (!fs.existsSync(JSON_REPORT)) {
     console.warn(`No JSON report found at ${JSON_REPORT} — skipping HTML report generation.`);
@@ -19,7 +16,7 @@ async function generateReport() {
   }
 
   try {
-    // The reporter is ESM-only; load it via dynamic import from CommonJS.
+    // the reporter is ESM only, so import it dynamically from CommonJS
     const { generate } = await import('multiple-cucumber-html-reporter');
     await generate({
       jsonDir: REPORTS_DIR,

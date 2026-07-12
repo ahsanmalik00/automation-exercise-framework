@@ -4,6 +4,7 @@
   "description": "UI automation framework for automationexercise.com using Playwright, Cucumber.js and TypeScript",
   "private": true,
   "scripts": {
+    "postinstall": "playwright install chromium",
     "test": "node scripts/run-tests.js",
     "test:smoke": "node scripts/run-tests.js --tags @smoke",
     "test:regression": "node scripts/run-tests.js --tags @regression",

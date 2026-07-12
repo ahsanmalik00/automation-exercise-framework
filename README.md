@@ -79,10 +79,10 @@ The brief allowed JavaScript or TypeScript; TypeScript was chosen deliberately:
 ### Installation
 
 ```bash
-npm ci
-npx playwright install chromium        # add firefox / webkit if you need them
+npm ci                                  
+npx playwright install chromium         # add chromium browser
+npx playwright install firefox webkit   # optional — firefox / webkit if you need them
 ```
-
 ### Environment setup
 
 ```bash

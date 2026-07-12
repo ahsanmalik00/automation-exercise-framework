@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { expect } from '../utilities/assertions';
 
-/** Confirmation modal shown after a product is added to the cart. */
+// Modal that pops up after a product is added to the cart
 export class CartModalComponent {
   private readonly root: Locator;
 

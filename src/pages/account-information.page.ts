@@ -3,7 +3,7 @@ import { BasePage } from './base.page';
 import { expect } from '../utilities/assertions';
 import type { UserDetails } from '../types';
 
-/** "Enter Account Information" form shown after the initial signup (/signup). */
+// "Enter Account Information" form shown after the first signup step
 export class AccountInformationPage extends BasePage {
   private readonly heading: Locator;
   private readonly password: Locator;
@@ -90,7 +90,7 @@ export class AccountInformationPage extends BasePage {
     await this.createAccountButton.click();
   }
 
-  /** Completes the whole account information form and submits it. */
+  // fills the whole form and submits it
   async completeRegistration(user: UserDetails): Promise<void> {
     await this.expectLoaded();
     await this.fillAccountInformation(user);

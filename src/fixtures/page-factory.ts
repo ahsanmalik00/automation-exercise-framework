@@ -10,10 +10,8 @@ import { PaymentPage } from '../pages/payment.page';
 import { OrderConfirmationPage } from '../pages/order-confirmation.page';
 import { HeaderComponent } from '../components/header.component';
 
-/**
- * Lazily instantiates page objects for the scenario's page.
- * Step definitions access every page/component through this single factory.
- */
+// Creates page objects on first use. Steps reach every page and component
+// through this single factory.
 export class PageFactory {
   private readonly cache = new Map<string, unknown>();
 
